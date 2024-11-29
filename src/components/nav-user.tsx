@@ -19,7 +19,6 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
-import { ModeToggle } from "./mode-toggler";
 
 export function NavUser({
   user,
