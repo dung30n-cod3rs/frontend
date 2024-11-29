@@ -1,45 +1,43 @@
-import Link from "next/link"
+import Link from "next/link";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { FormEvent } from 'react'
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { FormEvent } from "react";
 
 interface Props {
-  className?: string
-  router: any
+  className?: string;
+  router: any;
 }
 
 export const LoginForm: React.FC<Props> = ({ className, router }) => {
-
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
+    event.preventDefault();
 
-    const formData = new FormData(event.currentTarget)
-    const email = formData.get('email')
-    const password = formData.get('password')
+    const formData = new FormData(event.currentTarget);
+    const email = formData.get("email");
+    const password = formData.get("password");
 
-    console.log(email, password)
+    console.log(email, password);
 
-    const response = await fetch('http://localhost:3000/api/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    const response = await fetch("http://localhost:3000/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
-    })
+    });
     if (response.ok) {
-      router.push('/profile')
+      router.push("/profile");
     } else {
       // Handle errors
     }
   }
-
 
   return (
     <form onSubmit={handleSubmit} className={className}>
@@ -80,5 +78,5 @@ export const LoginForm: React.FC<Props> = ({ className, router }) => {
         </CardContent>
       </Card>
     </form>
-  )
-}
+  );
+};
