@@ -9,12 +9,17 @@ import {
 
 interface ListSelectorProps {
   placeholder?: string;
-  items?: Employee[] | Position[] | Filial[] | Metric[];
+  items?: Employee[] | Position[] | Filial[] | Metric[] | null;
+  onChange?: (value: string) => void;
 }
 
-const ListSelector: React.FC<ListSelectorProps> = ({ placeholder, items }) => {
+const ListSelector: React.FC<ListSelectorProps> = ({
+  placeholder,
+  items,
+  onChange,
+}) => {
   return (
-    <Select>
+    <Select onValueChange={onChange}>
       <SelectTrigger className="w-[180px]">
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>

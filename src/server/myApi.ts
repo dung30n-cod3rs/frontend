@@ -125,6 +125,10 @@ export interface FilialApiDto {
   company?: CompanyApiDto;
 }
 
+export interface GetAvailableMetricsByPositionResponseIdApiDto {
+  items?: MetricApiDto[] | null;
+}
+
 export interface GetCompanyByIdResponseApiDto {
   item?: CompanyApiDto;
 }
@@ -943,6 +947,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: data,
         secure: true,
         type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Metrics
+     * @name V1MetricsGetAvailableMetricsByPositionIdDetail
+     * @request GET:/api/v1/Metrics/GetAvailableMetricsByPositionId/{id}
+     * @secure
+     */
+    v1MetricsGetAvailableMetricsByPositionIdDetail: (id: number, params: RequestParams = {}) =>
+      this.request<GetAvailableMetricsByPositionResponseIdApiDto, any>({
+        path: `/api/v1/Metrics/GetAvailableMetricsByPositionId/${id}`,
+        method: "GET",
+        secure: true,
+        format: "json",
         ...params,
       }),
 
