@@ -264,7 +264,7 @@
       }
     },
     "/api/v1/Companies/MetricsByFilter": {
-      "get": {
+      "post": {
         "tags": ["Companies"],
         "requestBody": {
           "content": {
@@ -1157,6 +1157,10 @@
       "CompanyApiDto": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
           "creationDate": {
             "type": "string",
             "format": "date-time"
@@ -1237,6 +1241,10 @@
       "FilialApiDto": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
           "creationDate": {
             "type": "string",
             "format": "date-time"
@@ -1264,8 +1272,59 @@
         },
         "additionalProperties": false
       },
+      "GetCompanyMembersByIdItemResponseApiDto": {
+        "type": "object",
+        "properties": {
+          "companyCreationDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "companyName": {
+            "type": "string",
+            "nullable": true
+          },
+          "userCreationDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "userName": {
+            "type": "string",
+            "nullable": true
+          },
+          "userEmail": {
+            "type": "string",
+            "nullable": true
+          },
+          "positionCreationDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "positionName": {
+            "type": "string",
+            "nullable": true
+          },
+          "positionWeight": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "salary": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
       "GetCompanyMembersByIdResponseApiDto": {
         "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetCompanyMembersByIdItemResponseApiDto"
+            },
+            "nullable": true
+          }
+        },
         "additionalProperties": false
       },
       "GetCompanyMetricsByIdRequestApiDto": {
@@ -1297,6 +1356,15 @@
       },
       "GetCompanyPositionByIdResponseApiDto": {
         "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PositionApiDto"
+            },
+            "nullable": true
+          }
+        },
         "additionalProperties": false
       },
       "GetCompanyRatingByFilterItemResponseApiDto": {
@@ -1487,6 +1555,10 @@
       "MetricApiDto": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
           "creationDate": {
             "type": "string",
             "format": "date-time"
@@ -1516,6 +1588,10 @@
       "PositionApiDto": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
           "creationDate": {
             "type": "string",
             "format": "date-time"
@@ -1688,6 +1764,10 @@
       "UserApiDto": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
           "creationDate": {
             "type": "string",
             "format": "date-time"
@@ -1700,9 +1780,9 @@
             "type": "string",
             "nullable": true
           },
-          "password": {
-            "type": "string",
-            "nullable": true
+          "companyId": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false

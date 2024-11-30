@@ -56,6 +56,8 @@ export interface ChangeUserPasswordRequestApiDto {
 }
 
 export interface CompanyApiDto {
+  /** @format int32 */
+  id?: number;
   /** @format date-time */
   creationDate?: string;
   name?: string | null;
@@ -91,6 +93,8 @@ export interface DeletePositionRequestApiDto {
 }
 
 export interface FilialApiDto {
+  /** @format int32 */
+  id?: number;
   /** @format date-time */
   creationDate?: string;
   name?: string | null;
@@ -102,7 +106,26 @@ export interface GetCompanyByIdResponseApiDto {
   item?: CompanyApiDto;
 }
 
-export type GetCompanyMembersByIdResponseApiDto = object;
+export interface GetCompanyMembersByIdItemResponseApiDto {
+  /** @format date-time */
+  companyCreationDate?: string;
+  companyName?: string | null;
+  /** @format date-time */
+  userCreationDate?: string;
+  userName?: string | null;
+  userEmail?: string | null;
+  /** @format date-time */
+  positionCreationDate?: string;
+  positionName?: string | null;
+  /** @format int32 */
+  positionWeight?: number;
+  /** @format double */
+  salary?: number;
+}
+
+export interface GetCompanyMembersByIdResponseApiDto {
+  items?: GetCompanyMembersByIdItemResponseApiDto[] | null;
+}
 
 export interface GetCompanyMetricsByIdRequestApiDto {
   /** @format int32 */
@@ -115,7 +138,9 @@ export interface GetCompanyMetricsByIdResponseApiDto {
   items?: MetricApiDto[] | null;
 }
 
-export type GetCompanyPositionByIdResponseApiDto = object;
+export interface GetCompanyPositionByIdResponseApiDto {
+  items?: PositionApiDto[] | null;
+}
 
 export interface GetCompanyRatingByFilterItemResponseApiDto {
   name?: string | null;
@@ -195,6 +220,8 @@ export interface LoginUserResponseApiDto {
 }
 
 export interface MetricApiDto {
+  /** @format int32 */
+  id?: number;
   /** @format date-time */
   creationDate?: string;
   name?: string | null;
@@ -207,6 +234,8 @@ export interface MetricApiDto {
 }
 
 export interface PositionApiDto {
+  /** @format int32 */
+  id?: number;
   /** @format date-time */
   creationDate?: string;
   name?: string | null;
@@ -277,11 +306,14 @@ export interface UpdatePositionResponseApiDto {
 }
 
 export interface UserApiDto {
+  /** @format int32 */
+  id?: number;
   /** @format date-time */
   creationDate?: string;
   name?: string | null;
   email?: string | null;
-  password?: string | null;
+  /** @format int32 */
+  companyId?: number;
 }
 
 export type QueryParamsType = Record<string | number, any>;
@@ -629,14 +661,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags Companies
-     * @name V1CompaniesMetricsByFilterList
-     * @request GET:/api/v1/Companies/MetricsByFilter
+     * @name V1CompaniesMetricsByFilterCreate
+     * @request POST:/api/v1/Companies/MetricsByFilter
      * @secure
      */
-    v1CompaniesMetricsByFilterList: (data: GetCompanyMetricsByIdRequestApiDto, params: RequestParams = {}) =>
+    v1CompaniesMetricsByFilterCreate: (data: GetCompanyMetricsByIdRequestApiDto, params: RequestParams = {}) =>
       this.request<GetCompanyMetricsByIdResponseApiDto, any>({
         path: `/api/v1/Companies/MetricsByFilter`,
-        method: "GET",
+        method: "POST",
         body: data,
         secure: true,
         type: ContentType.Json,
