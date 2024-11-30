@@ -105,6 +105,27 @@ export interface GetCompanyByIdResponseApiDto {
 export type GetCompanyMembersByIdResponseApiDto = object;
 
 export interface GetCompanyMetricsByIdRequestApiDto {
+  /** @format int32 */
+  companyId?: number;
+  /** @format int32 */
+  positionId?: number;
+}
+
+export interface GetCompanyMetricsByIdResponseApiDto {
+  items?: MetricApiDto[] | null;
+}
+
+export type GetCompanyPositionByIdResponseApiDto = object;
+
+export interface GetCompanyRatingByFilterItemResponseApiDto {
+  name?: string | null;
+  /** @format double */
+  targetValue?: number;
+  /** @format int32 */
+  memberValue?: number;
+}
+
+export interface GetCompanyRatingByFilterRequestApiDto {
   /** @format date-time */
   creationDateFrom?: string;
   /** @format date-time */
@@ -117,16 +138,6 @@ export interface GetCompanyMetricsByIdRequestApiDto {
   positionId?: number;
   /** @format int32 */
   metricId?: number;
-}
-
-export type GetCompanyPositionByIdResponseApiDto = object;
-
-export interface GetCompanyRatingByFilterItemResponseApiDto {
-  name?: string | null;
-  /** @format double */
-  targetValue?: number;
-  /** @format int32 */
-  memberValue?: number;
 }
 
 export interface GetCompanyRatingByFilterResponseApiDto {
@@ -496,12 +507,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags Auth
      * @name V1AuthRegisterCreate
      * @request POST:/api/v1/Auth/Register
+     * @secure
      */
     v1AuthRegisterCreate: (data: RegisterUserRequestApiDto, params: RequestParams = {}) =>
       this.request<RegisterUserResponseApiDto, any>({
         path: `/api/v1/Auth/Register`,
         method: "POST",
         body: data,
+        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -513,12 +526,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags Auth
      * @name V1AuthLoginCreate
      * @request POST:/api/v1/Auth/Login
+     * @secure
      */
     v1AuthLoginCreate: (data: LoginUserRequestApiDto, params: RequestParams = {}) =>
       this.request<LoginUserResponseApiDto, any>({
         path: `/api/v1/Auth/Login`,
         method: "POST",
         body: data,
+        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -530,11 +545,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags Auth
      * @name V1AuthLogoutCreate
      * @request POST:/api/v1/Auth/Logout
+     * @secure
      */
     v1AuthLogoutCreate: (params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/api/v1/Auth/Logout`,
         method: "POST",
+        secure: true,
         ...params,
       }),
 
@@ -544,11 +561,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags Auth
      * @name V1AuthRefreshCreate
      * @request POST:/api/v1/Auth/Refresh
+     * @secure
      */
     v1AuthRefreshCreate: (params: RequestParams = {}) =>
       this.request<RefreshUserResponseApiDto, any>({
         path: `/api/v1/Auth/Refresh`,
         method: "POST",
+        secure: true,
         format: "json",
         ...params,
       }),
@@ -559,11 +578,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags Companies
      * @name V1CompaniesDetail
      * @request GET:/api/v1/Companies/{id}
+     * @secure
      */
     v1CompaniesDetail: (id: number, params: RequestParams = {}) =>
       this.request<GetCompanyByIdResponseApiDto, any>({
         path: `/api/v1/Companies/${id}`,
         method: "GET",
+        secure: true,
         format: "json",
         ...params,
       }),
@@ -574,11 +595,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags Companies
      * @name V1CompaniesMembersDetail
      * @request GET:/api/v1/Companies/{id}/members
+     * @secure
      */
     v1CompaniesMembersDetail: (id: number, params: RequestParams = {}) =>
       this.request<GetCompanyMembersByIdResponseApiDto, any>({
         path: `/api/v1/Companies/${id}/members`,
         method: "GET",
+        secure: true,
         format: "json",
         ...params,
       }),
@@ -589,12 +612,33 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags Companies
      * @name V1CompaniesRatingByFilterCreate
      * @request POST:/api/v1/Companies/RatingByFilter
+     * @secure
      */
-    v1CompaniesRatingByFilterCreate: (data: GetCompanyMetricsByIdRequestApiDto, params: RequestParams = {}) =>
+    v1CompaniesRatingByFilterCreate: (data: GetCompanyRatingByFilterRequestApiDto, params: RequestParams = {}) =>
       this.request<GetCompanyRatingByFilterResponseApiDto, any>({
         path: `/api/v1/Companies/RatingByFilter`,
         method: "POST",
         body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Companies
+     * @name V1CompaniesMetricsByFilterList
+     * @request GET:/api/v1/Companies/MetricsByFilter
+     * @secure
+     */
+    v1CompaniesMetricsByFilterList: (data: GetCompanyMetricsByIdRequestApiDto, params: RequestParams = {}) =>
+      this.request<GetCompanyMetricsByIdResponseApiDto, any>({
+        path: `/api/v1/Companies/MetricsByFilter`,
+        method: "GET",
+        body: data,
+        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -606,11 +650,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags Companies
      * @name V1CompaniesPositionsDetail
      * @request GET:/api/v1/Companies/{id}/positions
+     * @secure
      */
     v1CompaniesPositionsDetail: (id: number, params: RequestParams = {}) =>
       this.request<GetCompanyPositionByIdResponseApiDto, any>({
         path: `/api/v1/Companies/${id}/positions`,
         method: "GET",
+        secure: true,
         format: "json",
         ...params,
       }),
@@ -621,12 +667,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags Companies
      * @name V1CompaniesCreate
      * @request POST:/api/v1/Companies
+     * @secure
      */
     v1CompaniesCreate: (data: CreateCompanyRequestApiDto, params: RequestParams = {}) =>
       this.request<CreateCompanyResponseApiDto, any>({
         path: `/api/v1/Companies`,
         method: "POST",
         body: data,
+        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -638,6 +686,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags Companies
      * @name V1CompaniesUpdateCompanyMemberUpdate
      * @request PUT:/api/v1/Companies/UpdateCompanyMember
+     * @secure
      */
     v1CompaniesUpdateCompanyMemberUpdate: (
       data: {
@@ -656,6 +705,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: `/api/v1/Companies/UpdateCompanyMember`,
         method: "PUT",
         body: data,
+        secure: true,
         type: ContentType.FormData,
         ...params,
       }),
@@ -666,11 +716,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags Companies
      * @name V1CompaniesMemberDelete
      * @request DELETE:/api/v1/Companies/{companyId}/member/{memberId}
+     * @secure
      */
     v1CompaniesMemberDelete: (companyId: number, memberId: number, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/api/v1/Companies/${companyId}/member/${memberId}`,
         method: "DELETE",
+        secure: true,
         ...params,
       }),
 
@@ -680,11 +732,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags Filials
      * @name V1FilialsDetail
      * @request GET:/api/v1/Filials/{id}
+     * @secure
      */
     v1FilialsDetail: (id: number, params: RequestParams = {}) =>
       this.request<GetFilialByIdResponseApiDto, any>({
         path: `/api/v1/Filials/${id}`,
         method: "GET",
+        secure: true,
         format: "json",
         ...params,
       }),
@@ -695,11 +749,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags Filials
      * @name V1FilialsDelete
      * @request DELETE:/api/v1/Filials/{id}
+     * @secure
      */
     v1FilialsDelete: (id: number, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/api/v1/Filials/${id}`,
         method: "DELETE",
+        secure: true,
         ...params,
       }),
 
@@ -709,6 +765,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags Filials
      * @name V1FilialsByCompanyList
      * @request GET:/api/v1/Filials/ByCompany
+     * @secure
      */
     v1FilialsByCompanyList: (
       query?: {
@@ -721,6 +778,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: `/api/v1/Filials/ByCompany`,
         method: "GET",
         query: query,
+        secure: true,
         format: "json",
         ...params,
       }),
@@ -731,12 +789,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags Filials
      * @name V1FilialsCreate
      * @request POST:/api/v1/Filials
+     * @secure
      */
     v1FilialsCreate: (data: CreateFilialRequestApiDto, params: RequestParams = {}) =>
       this.request<CreateFilialResponseApiDto, any>({
         path: `/api/v1/Filials`,
         method: "POST",
         body: data,
+        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -748,12 +808,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags Filials
      * @name V1FilialsUpdate
      * @request PUT:/api/v1/Filials
+     * @secure
      */
     v1FilialsUpdate: (data: UpdateFilialRequestApiDto, params: RequestParams = {}) =>
       this.request<UpdateFilialResponseApiDto, any>({
         path: `/api/v1/Filials`,
         method: "PUT",
         body: data,
+        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -765,12 +827,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags Members
      * @name V1MembersCreate
      * @request POST:/api/v1/Members
+     * @secure
      */
     v1MembersCreate: (data: AddMemberRequestApiDto, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/api/v1/Members`,
         method: "POST",
         body: data,
+        secure: true,
         type: ContentType.Json,
         ...params,
       }),
@@ -781,12 +845,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags Metrics
      * @name V1MetricsCreate
      * @request POST:/api/v1/Metrics
+     * @secure
      */
     v1MetricsCreate: (data: AddMetricRequestApiDto, params: RequestParams = {}) =>
       this.request<AddMetricResponseApiDto, any>({
         path: `/api/v1/Metrics`,
         method: "POST",
         body: data,
+        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -798,12 +864,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags Metrics
      * @name V1MetricsUpdate
      * @request PUT:/api/v1/Metrics
+     * @secure
      */
     v1MetricsUpdate: (data: UpdateMetricRequestApiDto, params: RequestParams = {}) =>
       this.request<UpdateMetricResponseApiDto, any>({
         path: `/api/v1/Metrics`,
         method: "PUT",
         body: data,
+        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -815,12 +883,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags Metrics
      * @name V1MetricsDelete
      * @request DELETE:/api/v1/Metrics
+     * @secure
      */
     v1MetricsDelete: (data: DeleteMetricRequestApiDto, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/api/v1/Metrics`,
         method: "DELETE",
         body: data,
+        secure: true,
         type: ContentType.Json,
         ...params,
       }),
@@ -831,12 +901,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags Positions
      * @name V1PositionsCreate
      * @request POST:/api/v1/Positions
+     * @secure
      */
     v1PositionsCreate: (data: AddPositionRequestApiDto, params: RequestParams = {}) =>
       this.request<AddPositionResponseApiDto, any>({
         path: `/api/v1/Positions`,
         method: "POST",
         body: data,
+        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -848,12 +920,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags Positions
      * @name V1PositionsUpdate
      * @request PUT:/api/v1/Positions
+     * @secure
      */
     v1PositionsUpdate: (data: UpdatePositionRequestApiDto, params: RequestParams = {}) =>
       this.request<UpdatePositionResponseApiDto, any>({
         path: `/api/v1/Positions`,
         method: "PUT",
         body: data,
+        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -865,12 +939,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags Positions
      * @name V1PositionsDelete
      * @request DELETE:/api/v1/Positions
+     * @secure
      */
     v1PositionsDelete: (data: DeletePositionRequestApiDto, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/api/v1/Positions`,
         method: "DELETE",
         body: data,
+        secure: true,
         type: ContentType.Json,
         ...params,
       }),
@@ -881,11 +957,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags Users
      * @name V1UsersDetail
      * @request GET:/api/v1/Users/{id}
+     * @secure
      */
     v1UsersDetail: (id: number, params: RequestParams = {}) =>
       this.request<GetUserByIdResponseApiDto, any>({
         path: `/api/v1/Users/${id}`,
         method: "GET",
+        secure: true,
         format: "json",
         ...params,
       }),
@@ -896,12 +974,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags Users
      * @name V1UsersMetricsCreate
      * @request POST:/api/v1/Users/Metrics
+     * @secure
      */
     v1UsersMetricsCreate: (data: GetUserMetricsByIdRequestApiDto, params: RequestParams = {}) =>
       this.request<GetUserMetricsByIdResponseApiDto, any>({
         path: `/api/v1/Users/Metrics`,
         method: "POST",
         body: data,
+        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -913,12 +993,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags Users
      * @name V1UsersChangePasswordCreate
      * @request POST:/api/v1/Users/ChangePassword
+     * @secure
      */
     v1UsersChangePasswordCreate: (data: ChangeUserPasswordRequestApiDto, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/api/v1/Users/ChangePassword`,
         method: "POST",
         body: data,
+        secure: true,
         type: ContentType.Json,
         ...params,
       }),

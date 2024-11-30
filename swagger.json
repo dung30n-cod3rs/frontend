@@ -224,17 +224,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/GetCompanyMetricsByIdRequestApiDto"
+                "$ref": "#/components/schemas/GetCompanyRatingByFilterRequestApiDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/GetCompanyMetricsByIdRequestApiDto"
+                "$ref": "#/components/schemas/GetCompanyRatingByFilterRequestApiDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/GetCompanyMetricsByIdRequestApiDto"
+                "$ref": "#/components/schemas/GetCompanyRatingByFilterRequestApiDto"
               }
             }
           }
@@ -256,6 +256,52 @@
               "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/GetCompanyRatingByFilterResponseApiDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/Companies/MetricsByFilter": {
+      "get": {
+        "tags": ["Companies"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetCompanyMetricsByIdRequestApiDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetCompanyMetricsByIdRequestApiDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetCompanyMetricsByIdRequestApiDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetCompanyMetricsByIdResponseApiDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetCompanyMetricsByIdResponseApiDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetCompanyMetricsByIdResponseApiDto"
                 }
               }
             }
@@ -1225,6 +1271,55 @@
       "GetCompanyMetricsByIdRequestApiDto": {
         "type": "object",
         "properties": {
+          "companyId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "positionId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetCompanyMetricsByIdResponseApiDto": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MetricApiDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetCompanyPositionByIdResponseApiDto": {
+        "type": "object",
+        "additionalProperties": false
+      },
+      "GetCompanyRatingByFilterItemResponseApiDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "targetValue": {
+            "type": "number",
+            "format": "double"
+          },
+          "memberValue": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetCompanyRatingByFilterRequestApiDto": {
+        "type": "object",
+        "properties": {
           "creationDateFrom": {
             "type": "string",
             "format": "date-time"
@@ -1246,28 +1341,6 @@
             "format": "int32"
           },
           "metricId": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "GetCompanyPositionByIdResponseApiDto": {
-        "type": "object",
-        "additionalProperties": false
-      },
-      "GetCompanyRatingByFilterItemResponseApiDto": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "targetValue": {
-            "type": "number",
-            "format": "double"
-          },
-          "memberValue": {
             "type": "integer",
             "format": "int32"
           }
@@ -1634,6 +1707,19 @@
         },
         "additionalProperties": false
       }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "description": "Put **_ONLY_** your JWT Bearer token on textbox below!",
+        "scheme": "Bearer",
+        "bearerFormat": "JWT"
+      }
     }
-  }
+  },
+  "security": [
+    {
+      "Bearer": []
+    }
+  ]
 }
