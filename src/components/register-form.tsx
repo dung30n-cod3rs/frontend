@@ -1,7 +1,6 @@
 "use client"
 
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 
@@ -16,7 +15,11 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 
-// Определяем схему валидации
+
+interface Props {
+	setUserFormData: any,
+}
+
 const FormSchema = z.object({
 	firstName: z.string().min(2, { message: "Введите корректное имя" }),
 	lastName: z.string().min(2, { message: "Введите корректную фамилию" }),
@@ -28,14 +31,7 @@ const FormSchema = z.object({
 	path: ["confirmPassword"],
 })
 
-export function RegisterForm() {
-	const [formData, setFormData] = useState({
-		firstName: "",
-		lastName: "",
-		email: "",
-		password: "",
-		confirmPassword: ""
-	})
+export const RegisterForm: React.FC<Props> = ({ setUserFormData }) => {
 
 	const form = useForm<z.infer<typeof FormSchema>>({
 		resolver: zodResolver(FormSchema),
@@ -48,9 +44,8 @@ export function RegisterForm() {
 		},
 	})
 
-	function onSubmit(data: z.infer<typeof FormSchema>) {
-		console.log(data)
-		setFormData(data)
+	async function onSubmit(data: z.infer<typeof FormSchema>) {
+		setUserFormData(data)
 	}
 
 	return (

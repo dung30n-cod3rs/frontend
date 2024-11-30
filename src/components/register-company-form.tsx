@@ -26,9 +26,14 @@ import {
 	FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import React from 'react'
 import { Label } from './ui/label'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from './ui/select'
 import { Textarea } from './ui/textarea'
+
+interface Props {
+	setCompanyFormData: any,
+}
 
 const FormSchema = z.object({
 	companyName: z.string().min(1, {
@@ -36,7 +41,8 @@ const FormSchema = z.object({
 	}),
 })
 
-export function RegisterCompanyForm() {
+export const RegisterCompanyForm: React.FC<Props> = ({ setCompanyFormData }) => {
+
 	const form = useForm<z.infer<typeof FormSchema>>({
 		resolver: zodResolver(FormSchema),
 		defaultValues: {
@@ -44,8 +50,8 @@ export function RegisterCompanyForm() {
 		},
 	})
 
-	function onSubmit(data: z.infer<typeof FormSchema>) {
-		console.log(data)
+	async function onSubmit(data: z.infer<typeof FormSchema>) {
+		setCompanyFormData(data)
 	}
 
 	return (

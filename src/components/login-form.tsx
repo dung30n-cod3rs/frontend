@@ -54,6 +54,7 @@ export const LoginForm: React.FC<Props> = ({ className, router }) => {
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
+                type='email'
                 name="email"
                 placeholder="m@example.com"
                 required
