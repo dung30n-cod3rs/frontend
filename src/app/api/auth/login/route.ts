@@ -1,4 +1,4 @@
-import { signIn } from "@/server/auth";
+import { Api } from "@/server/myApi";
 import { serialize } from "cookie";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -9,7 +9,17 @@ export async function POST(request: NextRequest) {
 
     const { email, password } = body;
 
-    const { token } = await signIn(email, password);
+    const res = await new Api().api.v1AuthLoginCreate({
+      email,
+      password,
+    });
+
+    console.log(res);
+
+    const token = res.data?.token;
+    if (!token) {
+      throw new Error("test");
+    }
 
     console.log(token);
 
