@@ -57,9 +57,9 @@ export function RegisterForm() {
 		<Form {...form}>
 			<form
 				onSubmit={form.handleSubmit(onSubmit)}
-				className="w-1/4 space-y-6 p-4 border-2 rounded-xl"
+				className=" w-[1/4] space-y-6 p-4 border-2 rounded-xl"
 			>
-				<h1 className="text-2xl">Регистрация</h1>
+				<h1 className="text-2xl">Регистрация профиля</h1>
 				<div className="flex gap-4">
 					<FormField
 						control={form.control}
@@ -127,7 +127,9 @@ export function RegisterForm() {
 						</FormItem>
 					)}
 				/>
-				<Button type="submit">Зарегистрироваться</Button>
+				<div className='w-full justify-items-end'>
+					<Button className='flex' type="submit">Перейти к регистрации компании</Button>
+				</div>
 			</form>
 		</Form>
 	)
