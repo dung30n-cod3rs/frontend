@@ -264,7 +264,7 @@
       }
     },
     "/api/v1/Companies/MetricsByFilter": {
-      "get": {
+      "post": {
         "tags": ["Companies"],
         "requestBody": {
           "content": {

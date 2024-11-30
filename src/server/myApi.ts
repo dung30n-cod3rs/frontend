@@ -661,14 +661,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags Companies
-     * @name V1CompaniesMetricsByFilterList
-     * @request GET:/api/v1/Companies/MetricsByFilter
+     * @name V1CompaniesMetricsByFilterCreate
+     * @request POST:/api/v1/Companies/MetricsByFilter
      * @secure
      */
-    v1CompaniesMetricsByFilterList: (data: GetCompanyMetricsByIdRequestApiDto, params: RequestParams = {}) =>
+    v1CompaniesMetricsByFilterCreate: (data: GetCompanyMetricsByIdRequestApiDto, params: RequestParams = {}) =>
       this.request<GetCompanyMetricsByIdResponseApiDto, any>({
         path: `/api/v1/Companies/MetricsByFilter`,
-        method: "GET",
+        method: "POST",
         body: data,
         secure: true,
         type: ContentType.Json,
