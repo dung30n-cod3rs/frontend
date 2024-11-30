@@ -808,6 +808,47 @@
         }
       }
     },
+    "/api/v1/Metrics/GetAvailableMetricsByPositionId/{id}": {
+      "get": {
+        "tags": [
+          "Metrics"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAvailableMetricsByPositionResponseIdApiDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAvailableMetricsByPositionResponseIdApiDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAvailableMetricsByPositionResponseIdApiDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/Metrics": {
       "post": {
         "tags": [
@@ -1443,6 +1484,19 @@
           },
           "company": {
             "$ref": "#/components/schemas/CompanyApiDto"
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetAvailableMetricsByPositionResponseIdApiDto": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MetricApiDto"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false

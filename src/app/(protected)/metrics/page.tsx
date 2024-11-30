@@ -13,15 +13,22 @@ import { Button } from "@/components/ui/button";
 import { columns } from "./columns";
 import { UserApiDto } from "@/server/myApi";
 import React from "react";
-import { DatePickerWithRange } from "@/components/date-picker";
 import { addDays } from "date-fns";
 import { DateRange } from "react-day-picker";
+import DatePickerWithRange from "@/components/date-picker";
 
 export default function Page() {
   const [user, setUser] = React.useState<UserApiDto | null>(null);
   const [filials, setFilials] = React.useState(null);
   const [positions, setPositions] = React.useState(null);
+  const [metrics, setMetrics] = React.useState(null);
   const [employees, setEmployees] = React.useState(null);
+  const [selectedEmployee, setSelectedEmployee] = React.useState(null);
+
+  function handleEmployeeSelect(employee) {
+    const selected = employees?.find((emp) => emp.name === employee);
+    setSelectedEmployee(selected?.id);
+  }
 
   const [date, setDate] = React.useState<DateRange | undefined>({
     from: new Date(2022, 0, 20),
@@ -81,41 +88,27 @@ export default function Page() {
   }, [user]);
 
   function handleDownload() {
-    async function fetchMetrics() {}
+    async function fetchMetrics() {
+      console.log(selectedEmployee);
+      const metricsRes = await fetch(
+        "http://localhost:3000/api/company/metrics",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            employeeId: selectedEmployee,
+            fromDate: date?.from,
+            toDate: date?.to,
+          }),
+        },
+      );
+      const data = await metricsRes.json();
+      setMetrics(data.metrics);
+    }
+
+    fetchMetrics();
   }
 
-  const metrics: Metric[] = [
-    {
-      id: 1,
-      name: "Метрика 1",
-      positionId: 1,
-      weight: 1,
-      description: "Описание метрики",
-      targetValue: 100,
-      count: 12,
-      bonus: 251,
-    },
-    {
-      id: 2,
-      name: "Метрика 2",
-      positionId: 2,
-      weight: 1,
-      description: "Описание метрики",
-      targetValue: 100,
-      count: 52,
-      bonus: 512,
-    },
-    {
-      id: 3,
-      name: "Метрика 3",
-      positionId: 3,
-      weight: 1,
-      description: "Описание метрики",
-      targetValue: 100,
-      count: 100,
-      bonus: 13,
-    },
-  ];
+  console.log(selectedEmployee);
 
   return (
     <div className="flex flex-col gap-4 w-full">
@@ -131,15 +124,27 @@ export default function Page() {
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <ListSelector placeholder="Сотрудник" items={employees} />
+              <ListSelector
+                placeholder="Сотрудник"
+                items={employees}
+                onChange={handleEmployeeSelect}
+              />
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
         <DatePickerWithRange date={date} setDate={setDate} />
-        <Button variant="outline">Загрузить</Button>
+        {selectedEmployee ? (
+          <Button variant="outline" onClick={handleDownload}>
+            Загрузить
+          </Button>
+        ) : (
+          <Button variant="outline" disabled>
+            Загрузить
+          </Button>
+        )}
       </div>
       <div>
-        <DataTable columns={columns} data={metrics} />
+        {metrics ? <DataTable columns={columns} data={metrics} /> : null}
       </div>
     </div>
   );
