@@ -1,4 +1,5 @@
-import { Button } from "@/components/ui/button";
+'use client'
+import { Button } from "@/components/ui/button"
 import {
   Dialog,
   DialogContent,
@@ -6,11 +7,45 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+} from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { UserApiDto } from '@/server/myApi'
+import React from 'react'
+
+
 
 const AddMemberDialog = () => {
+
+  const [user, setUser] = React.useState<UserApiDto | null>(null)
+
+
+  const [position, setPosition] = React.useState<number | null>(null)
+  const [userName, setUserName] = React.useState<string | null>(null)
+  const [userEmail, setUserEmail] = React.useState<string | null>(null)
+  const [userPassword, setUserPassword] = React.useState<string | null>(null)
+  const [salary, setSalary] = React.useState<number | null>(null)
+
+  React.useEffect(() => {
+    async function fetchUser() {
+      const userRes = await fetch("http://localhost:3000/api/users/me")
+      const data = await userRes.json()
+      setUser(data.user)
+    }
+
+    fetchUser()
+  }, [])
+
+  async function fetchCompanyAddMember() {
+    const addMemberRes = await fetch("http://localhost:3000/api/members", {
+      method: "POST",
+      body: JSON.stringify({ companyId: user?.companyId, positionId: position, userName, userEmail, userPassword, salary }),
+    })
+    const data = await addMemberRes.json()
+    console.log(data)
+  }
+
+
   return (
     <Dialog>
       <DialogTrigger>Добавить сотрудника</DialogTrigger>
@@ -24,8 +59,9 @@ const AddMemberDialog = () => {
               Имя
             </Label>
             <Input
+              onChange={(e) => setUserName(e.target.value)}
               id="name"
-              defaultValue="Pedro Duarte"
+              placeholder='Введите имя сотрудника'
               className="col-span-3"
             />
           </div>
@@ -34,8 +70,9 @@ const AddMemberDialog = () => {
               Почта
             </Label>
             <Input
+              onChange={(e) => setUserEmail(e.target.value)}
               id="email"
-              defaultValue="example@gmail.com"
+              placeholder='Введите почту сотрудника'
               className="col-span-3"
             />
           </div>
@@ -44,8 +81,9 @@ const AddMemberDialog = () => {
               Пароль
             </Label>
             <Input
+              onChange={(e) => setUserPassword(e.target.value)}
               id="password"
-              defaultValue="qwerty123"
+              placeholder='Введите пароль сотрудника'
               className="col-span-3"
             />
           </div>
@@ -54,8 +92,9 @@ const AddMemberDialog = () => {
               Позиция
             </Label>
             <Input
+              onChange={(e) => setPosition(Number(e.target.value))}
               id="password"
-              defaultValue="qwerty123"
+              placeholder='Введите позицию (целое число) сотрудника'
               className="col-span-3"
             />
           </div>
@@ -64,18 +103,21 @@ const AddMemberDialog = () => {
               Зарплата
             </Label>
             <Input
+              onChange={(e) => setSalary(Number(e.target.value))}
               id="password"
-              defaultValue="qwerty123"
+              placeholder='Введите зарплату сотрудника'
               className="col-span-3"
             />
           </div>
         </div>
         <DialogFooter>
-          <Button type="submit">Добавить</Button>
+          <Button type="submit" onClick={() => {
+            fetchCompanyAddMember()
+          }}>Добавить</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  );
-};
+  )
+}
 
-export default AddMemberDialog;
+export default AddMemberDialog
