@@ -49,6 +49,26 @@ const AddMemberDialog = () => {
               className="col-span-3"
             />
           </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="position" className="text-right">
+              Позиция
+            </Label>
+            <Input
+              id="password"
+              defaultValue="qwerty123"
+              className="col-span-3"
+            />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="salary" className="text-right">
+              Зарплата
+            </Label>
+            <Input
+              id="password"
+              defaultValue="qwerty123"
+              className="col-span-3"
+            />
+          </div>
         </div>
         <DialogFooter>
           <Button type="submit">Добавить</Button>

@@ -6,6 +6,7 @@ interface Filial {
 interface Position {
   id: number;
   name: string;
+  weight: number;
 }
 
 interface Employee {
