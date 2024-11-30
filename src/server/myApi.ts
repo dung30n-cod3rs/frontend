@@ -587,13 +587,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags Companies
-     * @name V1CompaniesRatingByFilterList
-     * @request GET:/api/v1/Companies/RatingByFilter
+     * @name V1CompaniesRatingByFilterCreate
+     * @request POST:/api/v1/Companies/RatingByFilter
      */
-    v1CompaniesRatingByFilterList: (data: GetCompanyMetricsByIdRequestApiDto, params: RequestParams = {}) =>
+    v1CompaniesRatingByFilterCreate: (data: GetCompanyMetricsByIdRequestApiDto, params: RequestParams = {}) =>
       this.request<GetCompanyRatingByFilterResponseApiDto, any>({
         path: `/api/v1/Companies/RatingByFilter`,
-        method: "GET",
+        method: "POST",
         body: data,
         type: ContentType.Json,
         format: "json",
@@ -894,13 +894,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags Users
-     * @name V1UsersMetricsList
-     * @request GET:/api/v1/Users/Metrics
+     * @name V1UsersMetricsCreate
+     * @request POST:/api/v1/Users/Metrics
      */
-    v1UsersMetricsList: (data: GetUserMetricsByIdRequestApiDto, params: RequestParams = {}) =>
+    v1UsersMetricsCreate: (data: GetUserMetricsByIdRequestApiDto, params: RequestParams = {}) =>
       this.request<GetUserMetricsByIdResponseApiDto, any>({
         path: `/api/v1/Users/Metrics`,
-        method: "GET",
+        method: "POST",
         body: data,
         type: ContentType.Json,
         format: "json",
