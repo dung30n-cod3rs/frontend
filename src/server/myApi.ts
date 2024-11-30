@@ -21,6 +21,13 @@ export interface AddMemberRequestApiDto {
   salary?: number;
 }
 
+export interface AddMemberToFilialRequestApiDto {
+  /** @format int32 */
+  filialId?: number;
+  /** @format int32 */
+  memberId?: number;
+}
+
 export interface AddMetricRequestApiDto {
   /** @format int32 */
   positionId?: number;
@@ -34,6 +41,22 @@ export interface AddMetricRequestApiDto {
 
 export interface AddMetricResponseApiDto {
   item?: MetricApiDto;
+}
+
+export interface AddMetricToMemberRequestApiDto {
+  items?: AddMetricToMemberRequestItemApiDto[] | null;
+}
+
+export interface AddMetricToMemberRequestItemApiDto {
+  /** @format int32 */
+  memberId?: number;
+  /** @format int32 */
+  metricId?: number;
+}
+
+export interface AddMetricToMemberResponseApiDto {
+  /** @format int32 */
+  affectedRows?: number;
 }
 
 export interface AddPositionRequestApiDto {
@@ -680,6 +703,25 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags Companies
+     * @name V1CompaniesAddMetricToMemberCreate
+     * @request POST:/api/v1/Companies/AddMetricToMember
+     * @secure
+     */
+    v1CompaniesAddMetricToMemberCreate: (data: AddMetricToMemberRequestApiDto, params: RequestParams = {}) =>
+      this.request<AddMetricToMemberResponseApiDto, any>({
+        path: `/api/v1/Companies/AddMetricToMember`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Companies
      * @name V1CompaniesPositionsDetail
      * @request GET:/api/v1/Companies/{id}/positions
      * @secure
@@ -850,6 +892,24 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         secure: true,
         type: ContentType.Json,
         format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Filials
+     * @name V1FilialsAddMemberToFilialCreate
+     * @request POST:/api/v1/Filials/AddMemberToFilial
+     * @secure
+     */
+    v1FilialsAddMemberToFilialCreate: (data: AddMemberToFilialRequestApiDto, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/v1/Filials/AddMemberToFilial`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
         ...params,
       }),
 
