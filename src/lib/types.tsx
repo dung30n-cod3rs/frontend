@@ -33,3 +33,8 @@ interface RatingRow {
   value: number;
   filial: Filial;
 }
+
+interface Company {
+  id: number;
+  name: string;
+}
