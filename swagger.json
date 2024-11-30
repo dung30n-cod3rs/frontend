@@ -325,6 +325,54 @@
         }
       }
     },
+    "/api/v1/Companies/AddMetricToMember": {
+      "post": {
+        "tags": [
+          "Companies"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddMetricToMemberRequestApiDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddMetricToMemberRequestApiDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddMetricToMemberRequestApiDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddMetricToMemberResponseApiDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddMetricToMemberResponseApiDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddMetricToMemberResponseApiDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/Companies/{id}/positions": {
       "get": {
         "tags": [
@@ -694,6 +742,37 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/api/v1/Filials/AddMemberToFilial": {
+      "post": {
+        "tags": [
+          "Filials"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddMemberToFilialRequestApiDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddMemberToFilialRequestApiDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddMemberToFilialRequestApiDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
           }
         }
       }
@@ -1128,6 +1207,20 @@
         },
         "additionalProperties": false
       },
+      "AddMemberToFilialRequestApiDto": {
+        "type": "object",
+        "properties": {
+          "filialId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "memberId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
       "AddMetricRequestApiDto": {
         "type": "object",
         "properties": {
@@ -1159,6 +1252,43 @@
         "properties": {
           "item": {
             "$ref": "#/components/schemas/MetricApiDto"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AddMetricToMemberRequestApiDto": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AddMetricToMemberRequestItemApiDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AddMetricToMemberRequestItemApiDto": {
+        "type": "object",
+        "properties": {
+          "memberId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "metricId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AddMetricToMemberResponseApiDto": {
+        "type": "object",
+        "properties": {
+          "affectedRows": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false
@@ -1381,16 +1511,50 @@
         },
         "additionalProperties": false
       },
-      "GetCompanyMetricsByIdRequestApiDto": {
+      "GetCompanyMetricsByIdItemResponseApiDto": {
         "type": "object",
         "properties": {
-          "companyId": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "weight": {
             "type": "integer",
             "format": "int32"
           },
-          "positionId": {
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "targetValue": {
+            "type": "number",
+            "format": "double"
+          },
+          "count": {
             "type": "integer",
             "format": "int32"
+          },
+          "bonus": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetCompanyMetricsByIdRequestApiDto": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "creationDateFrom": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "creationDateTo": {
+            "type": "string",
+            "format": "date-time"
           }
         },
         "additionalProperties": false
@@ -1401,7 +1565,7 @@
           "items": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/MetricApiDto"
+              "$ref": "#/components/schemas/GetCompanyMetricsByIdItemResponseApiDto"
             },
             "nullable": true
           }
