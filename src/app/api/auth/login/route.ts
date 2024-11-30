@@ -1,4 +1,4 @@
-  import { signIn } from '@/server/auth'
+import { signIn } from '@/server/auth'
 import { serialize } from 'cookie'
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -13,18 +13,27 @@ import { NextRequest, NextResponse } from 'next/server'
 
       console.log(tokens);
 
-      const cookie = serialize('session', tokens.AccessToken, {
+      const accessTokenCookie = serialize('accessToken', tokens.AccessToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         maxAge: 60 * 60 * 24 * 7,
         path: '/',
         sameSite: 'strict',
       })
+
+      const refreshTokenCookie = serialize('refreshToken', tokens.RefreshToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: 60 * 60 * 24 * 30, // Например, 30 дней
+        path: '/',
+        sameSite: 'strict',
+      })
+      
       return NextResponse.json(
         { success: true, message: 'Login successful' },
         {
           headers: { 
-            'Set-Cookie': cookie,
+            'Set-Cookie': accessTokenCookie + ', ' + refreshTokenCookie,
           }
         }
       )
