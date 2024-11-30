@@ -150,15 +150,30 @@ export interface GetCompanyMembersByIdResponseApiDto {
   items?: GetCompanyMembersByIdItemResponseApiDto[] | null;
 }
 
+export interface GetCompanyMetricsByIdItemResponseApiDto {
+  name?: string | null;
+  /** @format int32 */
+  weight?: number;
+  description?: string | null;
+  /** @format double */
+  targetValue?: number;
+  /** @format int32 */
+  count?: number;
+  /** @format double */
+  bonus?: number;
+}
+
 export interface GetCompanyMetricsByIdRequestApiDto {
   /** @format int32 */
-  companyId?: number;
-  /** @format int32 */
-  positionId?: number;
+  userId?: number;
+  /** @format date-time */
+  creationDateFrom?: string;
+  /** @format date-time */
+  creationDateTo?: string;
 }
 
 export interface GetCompanyMetricsByIdResponseApiDto {
-  items?: MetricApiDto[] | null;
+  items?: GetCompanyMetricsByIdItemResponseApiDto[] | null;
 }
 
 export interface GetCompanyPositionByIdResponseApiDto {
