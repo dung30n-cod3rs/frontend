@@ -1,29 +1,42 @@
-import AddPositionDialog from "./add-position";
-import PositionsTable from "./positions-table";
+'use client'
+import { UserApiDto } from '@/server/myApi'
+import React from 'react'
+import AddPositionDialog from "./add-position"
+import PositionsTable from "./positions-table"
 
 export default function Page() {
-  const positions: Position[] = [
-    {
-      id: 1,
-      name: "Директор",
-      weight: 1,
-    },
-    {
-      id: 2,
-      name: "Test",
-      weight: 1,
-    },
-    {
-      id: 3,
-      name: "Test2",
-      weight: 1,
-    },
-  ];
+
+  const [user, setUser] = React.useState<UserApiDto | null>(null)
+  const [positions, setPositions] = React.useState(null)
+
+  React.useEffect(() => {
+    async function fetchUser() {
+      const userRes = await fetch("http://localhost:3000/api/users/me")
+      const data = await userRes.json()
+      setUser(data.user)
+    }
+
+    fetchUser()
+  }, [])
+
+  React.useEffect(() => {
+    async function fetchCompanyPositions() {
+      const positionRes = await fetch("http://localhost:3000/api/company/positions", {
+        method: "POST",
+        body: JSON.stringify({ companyId: user?.companyId }),
+      })
+      const data = await positionRes.json()
+      setPositions(data.positions)
+      console.log(data)
+    }
+
+    fetchCompanyPositions()
+  }, [user])
 
   return (
     <div className="flex flex-col gap-4">
-      <PositionsTable positions={positions} />
+      <PositionsTable positions={positions || []} />
       <AddPositionDialog />
     </div>
-  );
+  )
 }

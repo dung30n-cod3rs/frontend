@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button"
 import {
   Dialog,
   DialogContent,
@@ -6,11 +6,41 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+} from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { UserApiDto } from '@/server/myApi'
+import React from 'react'
 
 const AddPositionDialog = () => {
+
+  const [user, setUser] = React.useState<UserApiDto | null>(null)
+  const [name, setName] = React.useState<string | null>(null)
+  const [weight, setWeight] = React.useState<number | null>(null)
+
+  React.useEffect(() => {
+    async function fetchUser() {
+      const userRes = await fetch("http://localhost:3000/api/users/me")
+      const data = await userRes.json()
+      setUser(data.user)
+    }
+
+    fetchUser()
+  }, [])
+
+  async function fetchCompanyAddPositions() {
+    const addMemberRes = await fetch("http://localhost:3000/api/positions", {
+      method: "POST",
+      body: JSON.stringify({
+        name: name,
+        weight: weight,
+        companyId: user?.companyId
+      }),
+    })
+    const data = await addMemberRes.json()
+    console.log(data)
+  }
+
   return (
     <Dialog>
       <DialogTrigger>Добавить должность</DialogTrigger>
@@ -24,8 +54,9 @@ const AddPositionDialog = () => {
               Название
             </Label>
             <Input
+              onChange={(e) => setName(e.target.value)}
               id="name"
-              defaultValue="Pedro Duarte"
+              placeholder="Название должности"
               className="col-span-3"
             />
           </div>
@@ -34,18 +65,19 @@ const AddPositionDialog = () => {
               Вес (целое число)
             </Label>
             <Input
-              id="password"
-              defaultValue="qwerty123"
+              id="weight"
+              onChange={(e) => setWeight(Number(e.target.value))}
+              placeholder='Вес должности'
               className="col-span-3"
             />
           </div>
         </div>
         <DialogFooter>
-          <Button type="submit">Добавить</Button>
+          <Button type="submit" onClick={fetchCompanyAddPositions}>Добавить</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  );
-};
+  )
+}
 
-export default AddPositionDialog;
+export default AddPositionDialog

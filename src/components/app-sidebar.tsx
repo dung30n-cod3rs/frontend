@@ -1,40 +1,54 @@
-"use client";
+"use client"
 
-import * as React from "react";
-import { Star, ChartColumnIncreasing } from "lucide-react";
+import { ChartColumnIncreasing, Star } from "lucide-react"
+import * as React from "react"
 
-import { NavMain } from "@/components/nav-main";
-import { NavUser } from "@/components/nav-user";
+import { NavMain } from "@/components/nav-main"
+import { NavUser } from "@/components/nav-user"
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarRail,
-} from "@/components/ui/sidebar";
-
-const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "",
-  },
-  navMain: [
-    {
-      title: "Рейтинг",
-      url: "/rating",
-      icon: Star,
-      isActive: false,
-    },
-    {
-      title: "Метрики",
-      url: "/metrics",
-      icon: ChartColumnIncreasing,
-      isActive: false,
-    },
-  ],
-};
+} from "@/components/ui/sidebar"
+import { UserApiDto } from '@/server/myApi'
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+
+  const [realUser, setRealUser] = React.useState<UserApiDto | null>(null)
+
+  React.useEffect(() => {
+    async function fetchUser() {
+      const userRes = await fetch("http://localhost:3000/api/users/me")
+      const data = await userRes.json()
+      setRealUser(data.user)
+    }
+
+    fetchUser()
+  }, [])
+
+  const data = {
+    user: {
+      name: realUser?.name,
+      email: realUser?.email,
+      avatar: "",
+    },
+    navMain: [
+      {
+        title: "Рейтинг",
+        url: "/rating",
+        icon: Star,
+        isActive: false,
+      },
+      {
+        title: "Метрики",
+        url: "/metrics",
+        icon: ChartColumnIncreasing,
+        isActive: false,
+      },
+    ],
+  }
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarContent>
@@ -45,5 +59,5 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
-  );
+  )
 }
