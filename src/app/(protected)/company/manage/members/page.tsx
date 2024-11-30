@@ -1,5 +1,6 @@
-import AddMemberDialog from "./add-member";
-import MembersTable from "./members-table";
+import { Button } from '@/components/ui/button'
+import AddMemberDialog from "./add-member"
+import MembersTable from "./members-table"
 
 export default function Page() {
   const members: Employee[] = [
@@ -18,12 +19,15 @@ export default function Page() {
       name: "Member name",
       email: "Member email",
     },
-  ];
+  ]
 
   return (
     <div className="flex flex-col gap-4">
+      <div>
+        <Button variant='outline' size='sm' className='font-semibold'>Добавить JSON</Button>
+      </div>
       <MembersTable members={members} />
       <AddMemberDialog />
     </div>
-  );
+  )
 }

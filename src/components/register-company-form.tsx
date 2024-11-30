@@ -4,6 +4,17 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+	AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
 import {
 	Form,
@@ -20,8 +31,8 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrig
 import { Textarea } from './ui/textarea'
 
 const FormSchema = z.object({
-	companyName: z.string().min(2, {
-		message: "Username must be at least 2 characters.",
+	companyName: z.string().min(1, {
+		message: "Название компании должно иметь минимум 1 символ",
 	}),
 })
 
@@ -40,6 +51,7 @@ export function RegisterCompanyForm() {
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit)} className="w-1/4 space-y-6 items-center">
+				<Label className='text-2xl'>Регистрация компании</Label>
 				<FormField
 					control={form.control}
 					name="companyName"
@@ -76,7 +88,23 @@ export function RegisterCompanyForm() {
 					<Label htmlFor="message">JSON внутренней структуры компании</Label>
 					<Textarea className='min-h-[200px] max-h-[500px]' placeholder="Введите JSON" />
 				</div>
-				<Button type="submit">Подтвердить</Button>
+				<AlertDialog>
+					<AlertDialogTrigger asChild>
+						<Button type="submit" >Подтвердить</Button>
+					</AlertDialogTrigger>
+					<AlertDialogContent>
+						<AlertDialogHeader>
+							<AlertDialogTitle>Хотите внести данные о сотрудниках?</AlertDialogTitle>
+							<AlertDialogDescription>
+								Вы можете внести данные о сотрудниках прямо сейчас через форму либо в формате JSON во вкладке "Управление".
+							</AlertDialogDescription>
+						</AlertDialogHeader>
+						<AlertDialogFooter>
+							<AlertDialogCancel>Добавить позже</AlertDialogCancel>
+							<AlertDialogAction>Перейти</AlertDialogAction>
+						</AlertDialogFooter>
+					</AlertDialogContent>
+				</AlertDialog>
 			</form>
 		</Form>
 	)
