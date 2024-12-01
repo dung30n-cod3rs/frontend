@@ -17,14 +17,15 @@ export async function POST(request: NextRequest) {
       redirect("/login");
     }
 
-    const { dateTo, dateFrom, employeeId } = body;
+    const { toDate, fromDate, employeeId } = body;
 
     console.log(body);
+    console.log(toDate);
 
     const metricsRes = await new Api().api.v1CompaniesMetricsByFilterCreate(
       {
-        creationDateTo: dateTo,
-        creationDateFrom: dateFrom,
+        creationDateTo: toDate,
+        creationDateFrom: fromDate,
         userId: employeeId,
       },
       {

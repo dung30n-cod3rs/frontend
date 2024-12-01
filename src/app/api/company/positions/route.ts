@@ -17,6 +17,8 @@ export async function POST(request: NextRequest) {
       redirect("/login");
     }
 
+    console.log(body);
+
     const positionsRes = await new Api().api.v1CompaniesPositionsDetail(
       body.companyId,
       {
@@ -48,6 +50,7 @@ export async function POST(request: NextRequest) {
       positions: positions,
     });
   } catch (error: unknown) {
+    console.log(error);
     console.error(
       "API request error:",
       error instanceof Error ? error.message : String(error),
