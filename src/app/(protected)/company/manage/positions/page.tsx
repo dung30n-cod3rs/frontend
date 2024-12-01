@@ -27,7 +27,6 @@ export default function Page() {
       })
       const data = await positionRes.json()
       setPositions(data.positions)
-      console.log(data)
     }
 
     fetchCompanyPositions()

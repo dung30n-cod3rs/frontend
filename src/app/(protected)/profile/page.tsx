@@ -12,7 +12,6 @@ export default function Page() {
 			const userRes = await fetch("http://localhost:3000/api/users/me")
 			const data = await userRes.json()
 			setUser(data.user)
-			console.log(data.user)
 		}
 
 		fetchUser()
