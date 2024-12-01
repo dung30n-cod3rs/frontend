@@ -137,6 +137,8 @@ export interface GetCompanyMembersByIdItemResponseApiDto {
   /** @format date-time */
   companyCreationDate?: string;
   companyName?: string | null;
+  /** @format int32 */
+  userId?: number;
   /** @format date-time */
   userCreationDate?: string;
   userName?: string | null;

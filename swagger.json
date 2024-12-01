@@ -12,9 +12,7 @@
   "paths": {
     "/api/v1/Auth/Register": {
       "post": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -60,9 +58,7 @@
     },
     "/api/v1/Auth/Login": {
       "post": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -108,9 +104,7 @@
     },
     "/api/v1/Auth/Logout": {
       "post": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "responses": {
           "200": {
             "description": "Success"
@@ -120,9 +114,7 @@
     },
     "/api/v1/Auth/Refresh": {
       "post": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "responses": {
           "200": {
             "description": "Success",
@@ -149,9 +141,7 @@
     },
     "/api/v1/Companies/{id}": {
       "get": {
-        "tags": [
-          "Companies"
-        ],
+        "tags": ["Companies"],
         "parameters": [
           {
             "name": "id",
@@ -190,9 +180,7 @@
     },
     "/api/v1/Companies/{id}/members": {
       "get": {
-        "tags": [
-          "Companies"
-        ],
+        "tags": ["Companies"],
         "parameters": [
           {
             "name": "id",
@@ -231,9 +219,7 @@
     },
     "/api/v1/Companies/RatingByFilter": {
       "post": {
-        "tags": [
-          "Companies"
-        ],
+        "tags": ["Companies"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -279,9 +265,7 @@
     },
     "/api/v1/Companies/MetricsByFilter": {
       "post": {
-        "tags": [
-          "Companies"
-        ],
+        "tags": ["Companies"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -327,9 +311,7 @@
     },
     "/api/v1/Companies/AddMetricToMember": {
       "post": {
-        "tags": [
-          "Companies"
-        ],
+        "tags": ["Companies"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -375,9 +357,7 @@
     },
     "/api/v1/Companies/{id}/positions": {
       "get": {
-        "tags": [
-          "Companies"
-        ],
+        "tags": ["Companies"],
         "parameters": [
           {
             "name": "id",
@@ -416,9 +396,7 @@
     },
     "/api/v1/Companies": {
       "post": {
-        "tags": [
-          "Companies"
-        ],
+        "tags": ["Companies"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -464,9 +442,7 @@
     },
     "/api/v1/Companies/UpdateCompanyMember": {
       "put": {
-        "tags": [
-          "Companies"
-        ],
+        "tags": ["Companies"],
         "requestBody": {
           "content": {
             "multipart/form-data": {
@@ -517,9 +493,7 @@
     },
     "/api/v1/Companies/{companyId}/member/{memberId}": {
       "delete": {
-        "tags": [
-          "Companies"
-        ],
+        "tags": ["Companies"],
         "parameters": [
           {
             "name": "companyId",
@@ -551,9 +525,7 @@
     },
     "/api/v1/Filials/{id}": {
       "get": {
-        "tags": [
-          "Filials"
-        ],
+        "tags": ["Filials"],
         "parameters": [
           {
             "name": "id",
@@ -590,9 +562,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Filials"
-        ],
+        "tags": ["Filials"],
         "parameters": [
           {
             "name": "id",
@@ -614,9 +584,7 @@
     },
     "/api/v1/Filials/ByCompany": {
       "get": {
-        "tags": [
-          "Filials"
-        ],
+        "tags": ["Filials"],
         "parameters": [
           {
             "name": "companyId",
@@ -654,9 +622,7 @@
     },
     "/api/v1/Filials": {
       "post": {
-        "tags": [
-          "Filials"
-        ],
+        "tags": ["Filials"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -700,9 +666,7 @@
         }
       },
       "put": {
-        "tags": [
-          "Filials"
-        ],
+        "tags": ["Filials"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -748,9 +712,7 @@
     },
     "/api/v1/Filials/AddMemberToFilial": {
       "post": {
-        "tags": [
-          "Filials"
-        ],
+        "tags": ["Filials"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -779,9 +741,7 @@
     },
     "/api/v1/Members": {
       "post": {
-        "tags": [
-          "Members"
-        ],
+        "tags": ["Members"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -810,9 +770,7 @@
     },
     "/api/v1/Metrics/GetAvailableMetricsByPositionId/{id}": {
       "get": {
-        "tags": [
-          "Metrics"
-        ],
+        "tags": ["Metrics"],
         "parameters": [
           {
             "name": "id",
@@ -851,9 +809,7 @@
     },
     "/api/v1/Metrics": {
       "post": {
-        "tags": [
-          "Metrics"
-        ],
+        "tags": ["Metrics"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -897,9 +853,7 @@
         }
       },
       "put": {
-        "tags": [
-          "Metrics"
-        ],
+        "tags": ["Metrics"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -943,9 +897,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Metrics"
-        ],
+        "tags": ["Metrics"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -974,9 +926,7 @@
     },
     "/api/v1/Positions": {
       "post": {
-        "tags": [
-          "Positions"
-        ],
+        "tags": ["Positions"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -1020,9 +970,7 @@
         }
       },
       "put": {
-        "tags": [
-          "Positions"
-        ],
+        "tags": ["Positions"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -1066,9 +1014,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Positions"
-        ],
+        "tags": ["Positions"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -1097,9 +1043,7 @@
     },
     "/api/v1/Users/{id}": {
       "get": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "parameters": [
           {
             "name": "id",
@@ -1138,9 +1082,7 @@
     },
     "/api/v1/Users/Metrics": {
       "post": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -1186,9 +1128,7 @@
     },
     "/api/v1/Users/ChangePassword": {
       "post": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -1520,6 +1460,10 @@
           "companyName": {
             "type": "string",
             "nullable": true
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int32"
           },
           "userCreationDate": {
             "type": "string",

@@ -22,8 +22,20 @@ export default function Rating() {
   const [metrics, setMetrics] = React.useState(null);
 
   const [selectedPosition, setSelectedPosition] = React.useState(null);
+  const [selectedMetric, setSelectedMetric] = React.useState(null);
+  const [selectedFilial, setSelectedFilial] = React.useState(null);
 
   const [rating, setRating] = React.useState(null);
+
+  function handleFilialSelect(filial) {
+    const selected = filials?.find((fil) => fil.name === filial);
+    setSelectedFilial(selected?.id);
+  }
+
+  function handleMetricSelect(metric) {
+    const selected = metrics?.find((met) => met.name === metric);
+    setSelectedMetric(selected?.id);
+  }
 
   function handlePositionSelect(position) {
     const selected = positions?.find((pos) => pos.name === position);
@@ -31,8 +43,8 @@ export default function Rating() {
   }
 
   const [date, setDate] = React.useState<DateRange | undefined>({
-    from: new Date(2022, 0, 20),
-    to: addDays(new Date(2022, 0, 20), 20),
+    from: new Date(2024, 10, 20),
+    to: addDays(new Date(2024, 10, 20), 5),
   });
 
   React.useEffect(() => {
@@ -68,6 +80,8 @@ export default function Rating() {
       );
       const data = await positionsRes.json();
       setPositions(data.positions);
+      console.log("123");
+      console.log(data);
     }
 
     fetchFilials();
@@ -90,13 +104,41 @@ export default function Rating() {
     fetchMetrics();
   }, [selectedPosition]);
 
+  function handleDownload() {
+    async function fetchRating() {
+      const ratingRes = await fetch(
+        "http://localhost:3000/api/company/rating",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            fromDate: date?.from,
+            toDate: date?.to,
+            metricId: selectedMetric,
+            positionId: selectedPosition,
+            filialId: selectedFilial,
+            companyId: user.companyId,
+          }),
+        },
+      );
+      const data = await ratingRes.json();
+      setRating(data.rating);
+      console.log(data);
+    }
+
+    fetchRating();
+  }
+
   return (
     <div className="flex flex-col gap-4 w-full">
       <div className="flex flex-row gap-4">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <ListSelector placeholder="Филиал" items={filials} />
+              <ListSelector
+                placeholder="Филиал"
+                items={filials}
+                onChange={handleFilialSelect}
+              />
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
@@ -108,12 +150,24 @@ export default function Rating() {
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <ListSelector placeholder="Метрика" items={metrics} />
+              <ListSelector
+                placeholder="Метрика"
+                items={metrics}
+                onChange={handleMetricSelect}
+              />
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
         <DatePickerWithRange date={date} setDate={setDate} />
-        <Button variant="outline">Загрузить</Button>
+        {selectedMetric ? (
+          <Button variant="outline" onClick={handleDownload}>
+            Загрузить
+          </Button>
+        ) : (
+          <Button variant="outline" disabled>
+            Загрузить
+          </Button>
+        )}
       </div>
       <div>{rating && <DataTable columns={columns} data={rating} />}</div>
     </div>

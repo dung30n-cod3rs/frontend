@@ -27,12 +27,13 @@ export default function Page() {
 
   function handleEmployeeSelect(employee) {
     const selected = employees?.find((emp) => emp.name === employee);
+    console.log(selected);
     setSelectedEmployee(selected?.id);
   }
 
   const [date, setDate] = React.useState<DateRange | undefined>({
-    from: new Date(2022, 0, 20),
-    to: addDays(new Date(2022, 0, 20), 20),
+    from: new Date(2024, 10, 20),
+    to: addDays(new Date(2024, 10, 20), 5),
   });
 
   React.useEffect(() => {
@@ -103,6 +104,7 @@ export default function Page() {
       );
       const data = await metricsRes.json();
       setMetrics(data.metrics);
+      console.log(data);
     }
 
     fetchMetrics();

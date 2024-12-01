@@ -40,6 +40,9 @@ export async function POST(request: NextRequest) {
       },
     );
 
+    console.log(body.companyId);
+    console.log(positions);
+
     return NextResponse.json({
       success: true,
       positions: positions,

@@ -2,6 +2,8 @@ import {
   Api,
   GetCompanyMetricsByIdItemResponseApiDto,
   GetCompanyMetricsByIdResponseApiDto,
+  GetCompanyRatingByFilterItemResponseApiDto,
+  GetCompanyRatingByFilterResponseApiDto,
 } from "@/server/myApi";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -17,15 +19,19 @@ export async function POST(request: NextRequest) {
       redirect("/login");
     }
 
-    const { dateTo, dateFrom, employeeId } = body;
+    const { dateTo, dateFrom, metricId, positionId, filialId, companyId } =
+      body;
 
     console.log(body);
 
-    const metricsRes = await new Api().api.v1CompaniesMetricsByFilterCreate(
+    const ratingRes = await new Api().api.v1CompaniesRatingByFilterCreate(
       {
         creationDateTo: dateTo,
         creationDateFrom: dateFrom,
-        userId: employeeId,
+        metricId: metricId,
+        positionId: positionId,
+        filialId: filialId,
+        companyId: companyId,
       },
       {
         headers: {
@@ -33,30 +39,27 @@ export async function POST(request: NextRequest) {
         },
       },
     );
-    const metricsJson: GetCompanyMetricsByIdResponseApiDto =
-      await metricsRes.json();
+    const metricsJson: GetCompanyRatingByFilterResponseApiDto =
+      await ratingRes.json();
     if (!metricsJson.items) {
       redirect("/login");
     }
-    const metrics: Metric[] = metricsJson.items.map(
-      (item: GetCompanyMetricsByIdItemResponseApiDto) => {
+    const rating: RatingRow[] = metricsJson.items.map(
+      (item: GetCompanyRatingByFilterItemResponseApiDto) => {
         return {
           name: item.name,
-          weight: item.weight,
-          description: item.description,
           targetValue: item.targetValue,
-          count: item.count,
-          bonus: item.bonus,
+          memberValue: item.memberValue,
         };
       },
     );
 
     return NextResponse.json({
       success: true,
-      metrics: metrics,
+      rating: rating,
     });
   } catch (error: unknown) {
-    console.error(error);
+    console.log(error);
     console.error(
       "API request error:",
       error instanceof Error ? error.message : String(error),

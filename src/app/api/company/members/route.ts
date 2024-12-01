@@ -33,6 +33,7 @@ export async function POST(request: NextRequest) {
     const employees: Employee[] = employeesJson.items.map(
       (item: GetCompanyMembersByIdItemResponseApiDto) => {
         return {
+          id: item.userId,
           name: item.userName,
           email: item.userEmail,
         };

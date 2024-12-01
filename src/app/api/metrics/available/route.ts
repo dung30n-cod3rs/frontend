@@ -49,6 +49,7 @@ export async function POST(request: NextRequest) {
       metrics: metrics,
     });
   } catch (error: unknown) {
+    console.log(error);
     console.error(
       "API request error:",
       error instanceof Error ? error.message : String(error),
